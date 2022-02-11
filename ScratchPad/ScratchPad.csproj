@@ -7,8 +7,13 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Nullable>enable</Nullable>
 		<RootNamespace>ScratchPad</RootNamespace>
-		<AssemblyName>ScratchPad</AssemblyName>			
+		<AssemblyName>ScratchPad</AssemblyName>
+		<ApplicationIcon>Resources\Text Edit.ico</ApplicationIcon>			
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Text Edit.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="PW.Common" Version="2.0.1" />
