@@ -16,8 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PW.Common" Version="2.0.1" />
-	  <PackageReference Include="PW.LaunchPad.AppRegistration" Version="1.0.0" />
+	  <PackageReference Include="PW.Common" Version="4.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>

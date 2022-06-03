@@ -12,9 +12,9 @@ namespace ScratchPad
     static void Main()
     {
 #if !DEBUG
-#pragma warning disable CA1416 // Validate platform compatibility
-      PW.LaunchPad.RegistrationManager.Register("ScratchPad", Application.ExecutablePath);
-#pragma warning restore CA1416 // Validate platform compatibility
+
+      PW.AppRegistration.RegistrationManager.Register();// "ScratchPad", Application.ExecutablePath);
+
 #endif
 
 
