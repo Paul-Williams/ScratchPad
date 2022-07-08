@@ -16,13 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PW.Common" Version="4.0.5" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="PW.WinForms">
-	    <HintPath>C:\tfs\Class Libraries\PW.WinForms\WinForms\bin\Release\PW.WinForms.dll</HintPath>
-	  </Reference>
+	  <PackageReference Include="PW.Common" Version="5.0.2" />
+	  <PackageReference Include="PW.WinForms" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

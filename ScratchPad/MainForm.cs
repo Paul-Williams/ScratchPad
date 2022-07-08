@@ -19,7 +19,7 @@ namespace ScratchPad {
     private void Form_Load(object sender, EventArgs e) {
       try {
         Icon = Properties.Resources.Text_Edit;
-        DocPath.DirectoryPath.CreateIfNotExists();
+        DocPath.DirectoryPath.Create();
         LoadDoc();
       }
       catch (Exception ex) {
@@ -31,7 +31,7 @@ namespace ScratchPad {
     private void LoadDoc() {
       try {
         if (!DocPath.Exists) return;
-        TextBox.Text = File.ReadAllText(DocPath.Value);
+        TextBox.Text = File.ReadAllText(DocPath.Path);
         TextBox.SelectionStart = 0;
         TextBox.SelectionLength = 0;
         EnsureMinimumLineCount();
@@ -43,7 +43,7 @@ namespace ScratchPad {
 
     private void SaveDoc() {
       try {
-        File.WriteAllText(DocPath.Value, TextBox.Text);
+        File.WriteAllText(DocPath.Path, TextBox.Text);
       }
       catch (Exception ex) {
         MsgBox.ShowError(ex, "Unable to save ScratchDoc");

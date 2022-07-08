@@ -13,7 +13,7 @@ namespace ScratchPad
     {
 #if !DEBUG
 
-      PW.AppRegistration.RegistrationManager.Register();// "ScratchPad", Application.ExecutablePath);
+      PW.AppRegistration.RegistrationManager.Register("ScratchPad", Application.ExecutablePath);
 
 #endif
 
