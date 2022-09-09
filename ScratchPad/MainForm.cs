@@ -4,11 +4,15 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ScratchPad {
-  public partial class MainForm : Form {
-    public MainForm() {
-      InitializeComponent();
-    }
+namespace ScratchPad
+{
+  public partial class MainForm : Form
+  {
+    private const int MinLines = 29;
+
+    private int AutoSaveInterval;
+
+    public MainForm() => InitializeComponent();
 
     private FilePath DocPath { get; } =
       (DirectoryPath)Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
@@ -16,74 +20,80 @@ namespace ScratchPad {
       + (FileName)"ScratchDoc.txt";
 
 
-    private void Form_Load(object sender, EventArgs e) {
-      try {
+    private void Form_Load(object sender, EventArgs e)
+    {
+      try
+      {
         Icon = Properties.Resources.Text_Edit;
         DocPath.DirectoryPath.Create();
         LoadDoc();
+        TextBox.TextChanged += TextBox_TextChanged;
+        AutoSaveInterval = SaveTimer.Interval;
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
         MsgBox.ShowError(ex);
       }
     }
 
 
-    private void LoadDoc() {
-      try {
+    private void LoadDoc()
+    {
+      try
+      {
         if (!DocPath.Exists) return;
         TextBox.Text = File.ReadAllText(DocPath.Path);
         TextBox.SelectionStart = 0;
         TextBox.SelectionLength = 0;
-        EnsureMinimumLineCount();
+        TextBox.SetMinimumLineCount(MinLines);
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
         MsgBox.ShowError(ex, "Unable to load ScratchDoc");
       }
     }
 
-    private void SaveDoc() {
-      try {
+    public bool IsDirty { get; set; }
+
+    private void SaveDoc()
+    {
+      if (!IsDirty) return;
+
+      try
+      {
         File.WriteAllText(DocPath.Path, TextBox.Text);
+        if (Text[^1] == '*') Text = Text[0..^1];
+        IsDirty = false;
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
         MsgBox.ShowError(ex, "Unable to save ScratchDoc");
       }
     }
 
-    private void MainForm_FormClosed(object sender, FormClosedEventArgs e) {
+    private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+    {
+      SaveTimer.Stop();
       SaveDoc();
     }
 
-    private void TextBox_TextChanged(object sender, EventArgs e) {
-      EnsureMinimumLineCount();
+    // This handler should only be attached once the document has been loaded.
+    private void TextBox_TextChanged(object? sender, EventArgs e)
+    {
+      TextBox.SetMinimumLineCount(MinLines);
+      // Reset the timer each time a key is pressed, so that it only saves after a period of inactivity.      
+      SaveTimer.Interval = AutoSaveInterval;
+      if (!SaveTimer.Enabled) SaveTimer.Enabled = true;
+
+      // If it dow not already end in *, make it so.
+      if (Text[^1] != '*') Text += '*';
+      IsDirty = true;
     }
 
-    private const int MinLines = 29;
-
-    /// <summary>
-    /// Ensures a minimum number of lines for the text-box. Adds blank lines to the end as required.
-    /// </summary>
-    private void EnsureMinimumLineCount() {
-
-      TextBox.ReadOnly = false;
-      var lines = TextBox.Lines;
-      var lineCount = lines.Length;
-      int dif = MinLines - lineCount;
-
-      if (dif > 0) {
-        Array.Resize(ref lines, MinLines);
-        for (int i = lines.Length; i < MinLines; i++) lines[i] = Environment.NewLine;
-
-        var selPos = TextBox.SelectionStart;
-        var selLen = TextBox.SelectionLength;
-
-        TextBox.Lines = lines;
-
-        TextBox.SelectionStart = selPos;
-        TextBox.SelectionLength = selLen;        
-      }
-
-      TextBox.ReadOnly = false;
+    private void SaveTimer_Tick(object sender, EventArgs e)
+    {
+      SaveTimer.Stop();
+      SaveDoc();
     }
   }
 }
