@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ScratchPad;
@@ -8,23 +9,21 @@ public static class TextBoxExtensions
   /// <summary>
   /// Ensures a minimum number of lines for the text-box. Adds blank lines to the end as required.
   /// </summary>
-  public static void SetMinimumLineCount(this TextBox textBox, int count)
+  public static void SetMinimumLineCount(this TextBox textBox, int minimum)
   {
     var lines = textBox.Lines;
-    var lineCount = lines.Length;
-    int dif = count - lineCount;
 
-    if (dif > 0)
+    if (lines.Length < minimum)
     {
-      // Avoid changes while resizing.
+      // Prevent user changes to text box while resizing.
       textBox.ReadOnly = true;
-      
-      Array.Resize(ref lines, count);
 
-      // Fill added lines with new-lines.
-      for (int i = lines.Length; i < count; i++) lines[i] = Environment.NewLine;
+      Array.Resize(ref lines, minimum);
 
-      // Maintain selection
+      // Instantiate new strings as blank lines.
+      for (int i = lines.Length; i < minimum; i++) lines[i] = Environment.NewLine;
+
+      // Remember selection
       var selPos = textBox.SelectionStart;
       var selLen = textBox.SelectionLength;
 
@@ -36,7 +35,5 @@ public static class TextBoxExtensions
 
       textBox.ReadOnly = false;
     }
-
-
   }
 }

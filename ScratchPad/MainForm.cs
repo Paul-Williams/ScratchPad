@@ -11,6 +11,7 @@ namespace ScratchPad
     private const int MinLines = 29;
 
     private int AutoSaveInterval;
+    private bool isDirty;
 
     public MainForm() => InitializeComponent();
 
@@ -41,10 +42,12 @@ namespace ScratchPad
     {
       try
       {
-        if (!DocPath.Exists) return;
-        TextBox.Text = File.ReadAllText(DocPath.Path);
-        TextBox.SelectionStart = 0;
-        TextBox.SelectionLength = 0;
+        if (DocPath.Exists)
+        {
+          TextBox.Text = File.ReadAllText(DocPath.Path);
+          TextBox.SelectionStart = 0;
+          TextBox.SelectionLength = 0;
+        }
         TextBox.SetMinimumLineCount(MinLines);
       }
       catch (Exception ex)
@@ -53,7 +56,19 @@ namespace ScratchPad
       }
     }
 
-    public bool IsDirty { get; set; }
+    public bool IsDirty 
+    { 
+      get => isDirty; 
+      set 
+      {
+        if (isDirty == value) return;
+        isDirty = value;
+
+        // Add or remote a * to the end of the window title to denote dirty status.
+        Text = isDirty ? Text += '*' : Text[0..^1];
+      }
+    
+    }
 
     private void SaveDoc()
     {
@@ -62,7 +77,6 @@ namespace ScratchPad
       try
       {
         File.WriteAllText(DocPath.Path, TextBox.Text);
-        if (Text[^1] == '*') Text = Text[0..^1];
         IsDirty = false;
       }
       catch (Exception ex)
@@ -85,8 +99,6 @@ namespace ScratchPad
       SaveTimer.Interval = AutoSaveInterval;
       if (!SaveTimer.Enabled) SaveTimer.Enabled = true;
 
-      // If it dow not already end in *, make it so.
-      if (Text[^1] != '*') Text += '*';
       IsDirty = true;
     }
 
