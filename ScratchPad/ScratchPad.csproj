@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PW.Common" Version="5.0.2" />
+	  <PackageReference Include="PW.Common" Version="5.0.5" />
 	  <PackageReference Include="PW.WinForms" Version="1.0.0" />
 	</ItemGroup>
 
