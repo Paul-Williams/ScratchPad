@@ -8,7 +8,7 @@
 		<Nullable>enable</Nullable>
 		<RootNamespace>ScratchPad</RootNamespace>
 		<AssemblyName>ScratchPad</AssemblyName>
-		<ApplicationIcon>Resources\Text Edit.ico</ApplicationIcon>			
+		<ApplicationIcon>Resources\Text Edit.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
