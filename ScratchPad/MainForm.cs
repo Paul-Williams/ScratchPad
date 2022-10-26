@@ -44,7 +44,7 @@ namespace ScratchPad
       {
         if (DocPath.Exists)
         {
-          TextBox.Text = File.ReadAllText(DocPath.Path);
+          TextBox.Text = File.ReadAllText(DocPath);
           TextBox.SelectionStart = 0;
           TextBox.SelectionLength = 0;
         }
@@ -76,7 +76,7 @@ namespace ScratchPad
 
       try
       {
-        File.WriteAllText(DocPath.Path, TextBox.Text);
+        File.WriteAllText(DocPath, TextBox.Text);
         IsDirty = false;
       }
       catch (Exception ex)

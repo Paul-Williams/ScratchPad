@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Nullable>enable</Nullable>
@@ -16,8 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="PW.Common" Version="5.0.5" />
-	  <PackageReference Include="PW.WinForms" Version="1.0.0" />
+	  <PackageReference Include="PW.Common" Version="7.0.0" />
+	  <PackageReference Include="PW.WinForms" Version="1.0.1" />
 	</ItemGroup>
 
 </Project>
