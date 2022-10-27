@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
+
 namespace ScratchPad
 {
   static class Program
@@ -11,6 +12,17 @@ namespace ScratchPad
     [STAThread]
     static void Main()
     {
+
+      var anotherInstance = new PW.SingleInstance.SingletonApp();
+
+      if (anotherInstance.AlreadyRunning )
+      {
+        anotherInstance.ShowFirstInstance ();
+        return;
+      }
+
+
+
 #if !DEBUG
 
       PW.AppRegistration.RegistrationManager.Register("ScratchPad", Application.ExecutablePath);
